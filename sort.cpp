@@ -23,6 +23,7 @@ class Sort
         int partition(int low, int high);
         void heapSort();
         void heapify(int n, int i);
+        int binarySearch(int x, int low, int high);
 };
 
 Sort::Sort()
@@ -290,15 +291,37 @@ void Sort::heapSort()
 {
      // Build max heap
     for (int i = size / 2 - 1; i >= 0; i--)
-      heapify(size, i);
+        heapify(size, i);
   
     // Heap sort
-    for (int i = size - 1; i > 0; i--) {
-      swap(&arr[0], &arr[i]);
+    for (int i = size - 1; i > 0; i--) 
+    {
+        swap(&arr[0], &arr[i]);
   
-      // Heapify root element to get highest element at root again
-      heapify(i, 0);
+        // Heapify root element to get highest element at root again
+        heapify(i, 0);
     }
+}
+
+int Sort::binarySearch( int x, int low, int high)
+{
+    if (high >= low) 
+    {
+        int mid = low + (high - low) / 2;
+
+        // If found at mid, then return it
+        if (arr[mid] == x)
+            return mid;
+
+        // Search the left half
+        if (arr[mid] > x)
+            return binarySearch(x, low, mid - 1);
+
+        // Search the right half
+        return binarySearch(x, mid + 1, high);
+    }
+
+    return -1;
 }
 
 void menu()
@@ -316,11 +339,12 @@ void menu()
         std::cout << "5. sort the array with merge sort algorithm.\n";
         std::cout << "6. sort the array with quick sort algorithm.\n";
         std::cout << "7. sort the array with heap sort algorithm.\n";
-        std::cout << "8. making another array\n";
-        std::cout << "9. exit.\n";
+        std::cout << "8. do you want to search for specific number?\n";
+        std::cout << "9. making another array\n";
+        std::cout << "10. exit.\n";
         std::cin >> number;
 
-        if (number != 1 && number != 8 && number != 9 && sort_array_flag == true)
+        if (number != 1 && number != 8 && number != 9 && number != 10 && sort_array_flag == true)
         {
             std::string prompt;
             std::cout << "your array was already sorted\n"
@@ -368,10 +392,27 @@ void menu()
         }
         else if (number == 8)
         {
+            if (sort_array_flag != true)
+                std::cout << "first of all your array should be sorted for searching, please make your array sorted.\n";
+            else
+            {
+                std::cout << "What number are you looking for?\n";
+                int indx, search_number;
+                std::cin >> search_number;
+                indx = array.binarySearch(search_number, 0, array.return_size() - 1);
+                if (indx == -1)
+                    std::cout << "your number is not in the array\n";
+                else
+                    std::cout << "your number is at index: " << indx << '\n';
+            }
+            
+        }
+        else if (number == 9)
+        {
             array = Sort();
             sort_array_flag = false;
         }
-        else if (number == 9)
+        else if (number == 10)
             break;
     }
 }
