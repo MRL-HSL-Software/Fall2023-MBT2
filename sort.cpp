@@ -208,14 +208,14 @@ void Sort::mergeSort(int l, int r)
 {
    if (l < r)
    {
-    // m is the point where the array is divided into two subarrays
-    int m = l + (r - l) / 2;
+        // m is the point where the array is divided into two subarrays
+        int m = l + (r - l) / 2;
 
-    mergeSort(l, m);
-    mergeSort(m + 1, r);
+        mergeSort(l, m);
+        mergeSort(m + 1, r);
 
-    // Merge the sorted subarrays
-    merge(l, m, r);
+        // Merge the sorted subarrays
+        merge(l, m, r);
   }
 }
 
@@ -223,7 +223,6 @@ void Sort::quickSort(int low, int high)
 {
     if (low < high) 
     {
-      
         // find the pivot element such that
         // elements smaller than pivot are on left of pivot
         // elements greater than pivot are on righ of pivot
@@ -240,30 +239,31 @@ void Sort::quickSort(int low, int high)
 int Sort::partition(int low, int high)
 {
     // select the rightmost element as pivot
-  int pivot = arr[high];
+    int pivot = arr[high];
   
-  // pointer for greater element
-  int i = (low - 1);
+    // pointer for greater element
+    int i = (low - 1);
 
-  // traverse each element of the array
-  // compare them with the pivot
-  for (int j = low; j < high; j++) {
-    if (arr[j] <= pivot) {
+    // traverse each element of the array
+    // compare them with the pivot
+    for (int j = low; j < high; j++) 
+    {
+        if (arr[j] <= pivot) 
+        {
         
-      // if element smaller than pivot is found
-      // swap it with the greater element pointed by i
-      i++;
-      
-      // swap element at i with element at j
-      swap(&arr[i], &arr[j]);
+            // if element smaller than pivot is found
+            // swap it with the greater element pointed by i
+            i++;
+            // swap element at i with element at j
+            swap(&arr[i], &arr[j]);
+        }
     }
-  }
   
-  // swap pivot with the greater element at i
-  swap(&arr[i + 1], &arr[high]);
+    // swap pivot with the greater element at i
+    swap(&arr[i + 1], &arr[high]);
   
-  // return the partition point
-  return (i + 1);
+    // return the partition point
+    return (i + 1);
 }
 
 void Sort::heapify(int n, int i)
