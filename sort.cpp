@@ -21,6 +21,8 @@ class Sort
         void merge(int p, int q, int r);
         void quickSort(int low, int high);
         int partition(int low, int high);
+        void heapSort();
+        void heapify(int n, int i);
 };
 
 Sort::Sort()
@@ -263,6 +265,42 @@ int Sort::partition(int low, int high)
   return (i + 1);
 }
 
+void Sort::heapify(int n, int i)
+{
+    // Find largest among root, left child and right child
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+  
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+  
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+  
+    // Swap and continue heapifying if root is not largest
+    if (largest != i) 
+    {
+        swap(&arr[i], &arr[largest]);
+        heapify(n, largest);
+    }
+}
+
+void Sort::heapSort()
+{
+     // Build max heap
+    for (int i = size / 2 - 1; i >= 0; i--)
+      heapify(size, i);
+  
+    // Heap sort
+    for (int i = size - 1; i > 0; i--) {
+      swap(&arr[0], &arr[i]);
+  
+      // Heapify root element to get highest element at root again
+      heapify(i, 0);
+    }
+}
+
 void menu()
 {
     bool sort_array_flag = false; // Declare sort_array_flag outside the loop
@@ -277,11 +315,12 @@ void menu()
         std::cout << "4. sort the array with selection sort algorithm.\n";
         std::cout << "5. sort the array with merge sort algorithm.\n";
         std::cout << "6. sort the array with quick sort algorithm.\n";
-        std::cout << "7. making another array\n";
-        std::cout << "8. exit.\n";
+        std::cout << "7. sort the array with heap sort algorithm.\n";
+        std::cout << "8. making another array\n";
+        std::cout << "9. exit.\n";
         std::cin >> number;
 
-        if (number != 1 && number != 8 && number != 7 && sort_array_flag == true)
+        if (number != 1 && number != 8 && number != 9 && sort_array_flag == true)
         {
             std::string prompt;
             std::cout << "your array was already sorted\n"
@@ -324,10 +363,15 @@ void menu()
         }
         else if (number == 7)
         {
+            array.heapSort();
+            sort_array_flag = true;
+        }
+        else if (number == 8)
+        {
             array = Sort();
             sort_array_flag = false;
         }
-        else if (number == 8)
+        else if (number == 9)
             break;
     }
 }
